@@ -4,6 +4,11 @@ local EMPTY = {}
 
 LocalStorage = { ready = false; }
 
+function LocalStorage.isReady ()
+    LocalStorage.ready = isReady
+    return isReady
+end;
+
 function YIELD.SendMessage (fn, payload)
     local result = nil
 
@@ -25,6 +30,9 @@ function YIELD.SendMessage (fn, payload)
     result = YIELD.response
 
     YIELD.response = nil
+
+    isReady = true
+    LocalStorage.isReady()
 
     return result
 end;
@@ -82,7 +90,7 @@ Citizen.CreateThread(function ()
         while not isReady do
             Citizen.Wait(0)
         end
-        LocalStorage.ready = true
+        LocalStorage.isReady()
         return cb(LocalStorage)
     end)
 end)

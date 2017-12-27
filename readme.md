@@ -1,6 +1,6 @@
 ## localStorage
 
-- __ready__: *boolean*
+- __isReady()__: *boolean*
 
 - __hasItem (k)__: *boolean*
 
