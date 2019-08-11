@@ -75,13 +75,15 @@ function LocalStorage.clear ()
 end;
 
 Citizen.CreateThread(function ()
-    RegisterNUICallback('localstorage', function (data)
+    RegisterNUICallback('localstorage', function (data, cb)
         if data.type ~= 'LOCAL_STORAGE' then return
         elseif data.meta == 'ready' then
             isReady = true
         elseif data.meta == 'sync-cb' then
             YIELD.resume(data.payload)
         end
+
+        cb("")
     end)
     AddEventHandler('localstorage:getSharedObject', function (cb)
         if not isReady then
